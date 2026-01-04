@@ -11,7 +11,14 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: [
+        'http://localhost:3000',
+        'http://127.0.0.1:3000',
+        'https://dimensionx-1.onrender.com'
+    ],
+    credentials: true
+}));
 
 // Serve static files (uploads)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
