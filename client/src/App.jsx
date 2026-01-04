@@ -9,6 +9,7 @@ import LostItems from './pages/LostItems';
 import FoundItems from './pages/FoundItems';
 import PostItem from './pages/PostItem';
 import Profile from './pages/Profile';
+import Chat from './pages/Chat';
 import './index.css';
 
 function App() {
@@ -48,6 +49,14 @@ function App() {
                         element={
                             <PrivateRoute>
                                 <Profile />
+                            </PrivateRoute>
+                        }
+                    />
+                    <Route
+                        path="/chat"
+                        element={
+                            <PrivateRoute>
+                                <Chat />
                             </PrivateRoute>
                         }
                     />

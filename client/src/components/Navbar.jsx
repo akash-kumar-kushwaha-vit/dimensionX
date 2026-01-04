@@ -35,6 +35,7 @@ const Navbar = () => {
                                 <Nav.Link as={Link} to="/lost-items" className={isActive('/lost-items')}>Lost Items</Nav.Link>
                                 <Nav.Link as={Link} to="/found-items" className={isActive('/found-items')}>Found Items</Nav.Link>
                                 <Nav.Link as={Link} to="/post-item" className={isActive('/post-item')}>Post Item</Nav.Link>
+                                <Nav.Link as={Link} to="/chat" className={isActive('/chat')}>Messages</Nav.Link>
                             </>
                         )}
                     </Nav>

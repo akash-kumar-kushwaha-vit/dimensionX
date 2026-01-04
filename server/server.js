@@ -18,11 +18,11 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Database Connection
 mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/college-lost-found')
-.then(() => console.log('✅ MongoDB Connected'))
-.catch(err => {
-    console.error('❌ MongoDB Connection Error:', err);
-    // Continue running app even if DB fails, though functionality will be broken
-});
+    .then(() => console.log('✅ MongoDB Connected'))
+    .catch(err => {
+        console.error('❌ MongoDB Connection Error:', err);
+        // Continue running app even if DB fails, though functionality will be broken
+    });
 
 // Routes
 const authRoutes = require('./routes/auth');
@@ -30,6 +30,7 @@ const itemRoutes = require('./routes/items');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/items', itemRoutes);
+app.use('/api/messages', require('./routes/messages'));
 
 // Health Check
 app.get('/', (req, res) => {

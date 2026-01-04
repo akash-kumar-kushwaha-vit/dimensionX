@@ -46,7 +46,7 @@ router.get('/', authMiddleware, async (req, res) => {
             query.name = { $regex: search, $options: 'i' };
         }
 
-        const items = await Item.find(query).sort({ createdAt: -1 }).populate('postedBy', 'name email');
+        const items = await Item.find(query).sort({ createdAt: -1 }).populate('postedBy', 'name email picture');
         res.json(items);
     } catch (error) {
         console.error(error);

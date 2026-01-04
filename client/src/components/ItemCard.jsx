@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Card, Button } from 'react-bootstrap';
-import { Calendar, MapPin, Phone, Trash2 } from 'lucide-react';
+import { Calendar, MapPin, Phone, Trash2, MessageCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 
 const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -11,6 +13,16 @@ const formatDate = (dateString) => {
 };
 
 const ItemCard = ({ item, onDelete, isOwnPost }) => {
+    const navigate = useNavigate();
+    const { user } = useContext(AuthContext);
+
+    const handleMessage = () => {
+        // Navigate to chat with the owner data passed in state
+        if (item.postedBy) {
+            navigate('/chat', { state: { startChatWith: item.postedBy } });
+        }
+    };
+
     return (
         <Card className="premium-card">
             <div className="card-img-container">
@@ -55,17 +67,33 @@ const ItemCard = ({ item, onDelete, isOwnPost }) => {
                         {item.contact}
                     </div>
 
-                    {isOwnPost && (
-                        <Button
-                            variant="light"
-                            size="sm"
-                            className="text-danger bg-danger bg-opacity-10 border-0 rounded-circle p-2 d-flex align-items-center"
-                            onClick={() => onDelete(item._id)}
-                            title="Delete Post"
-                        >
-                            <Trash2 size={16} />
-                        </Button>
-                    )}
+                    <div className="d-flex gap-2">
+                        {/* Message Button (Only if not own post) */}
+                        {!isOwnPost && item.postedBy && item.postedBy._id !== user?._id && (
+                            <Button
+                                variant="light"
+                                size="sm"
+                                className="text-primary bg-primary bg-opacity-10 border-0 rounded-circle p-2 d-flex align-items-center"
+                                onClick={handleMessage}
+                                title="Message Owner"
+                            >
+                                <MessageCircle size={16} />
+                            </Button>
+                        )}
+
+                        {/* Delete Button (Only if own post) */}
+                        {isOwnPost && (
+                            <Button
+                                variant="light"
+                                size="sm"
+                                className="text-danger bg-danger bg-opacity-10 border-0 rounded-circle p-2 d-flex align-items-center"
+                                onClick={() => onDelete(item._id)}
+                                title="Delete Post"
+                            >
+                                <Trash2 size={16} />
+                            </Button>
+                        )}
+                    </div>
                 </div>
             </div>
         </Card>
