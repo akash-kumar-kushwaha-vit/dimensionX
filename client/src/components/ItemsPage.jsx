@@ -13,7 +13,6 @@ const ItemsPage = ({ type, title }) => {
         try {
             const token = localStorage.getItem('token');
             const config = { headers: { Authorization: `Bearer ${token}` } };
-            // Ensure type is lowercase for API
             const typeParam = type.toLowerCase();
             const res = await axios.get(`/api/items?type=${typeParam}&search=${search}&category=${category}`, config);
             setItems(res.data);
@@ -29,41 +28,62 @@ const ItemsPage = ({ type, title }) => {
     }, [type, search, category]);
 
     return (
-        <Container>
-            <h2 className="mb-4">{title}</h2>
+        <Container className="py-4">
+            {/* Page Header */}
+            <div className="page-header fade-in-up">
+                <h1 className="page-title">{title}</h1>
+                <p className="page-subtitle">Browse through items reported by your peers</p>
+            </div>
 
-            <Row className="mb-4">
-                <Col md={6}>
+            {/* Search & Filter */}
+            <Row className="mb-4 g-3 fade-in-up">
+                <Col md={7}>
                     <InputGroup>
+                        <InputGroup.Text>🔍</InputGroup.Text>
                         <Form.Control
-                            placeholder="Search by name..."
+                            placeholder="Search by item name..."
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                         />
                     </InputGroup>
                 </Col>
-                <Col md={4}>
+                <Col md={5}>
                     <Form.Select value={category} onChange={(e) => setCategory(e.target.value)}>
                         <option value="">All Categories</option>
-                        <option value="Laptop">Laptop</option>
-                        <option value="Phone">Phone</option>
-                        <option value="Wallet">Wallet</option>
-                        <option value="Documents">Documents</option>
-                        <option value="ID Card">ID Card</option>
-                        <option value="Others">Others</option>
+                        <option value="Laptop">💻 Laptop</option>
+                        <option value="Phone">📱 Phone</option>
+                        <option value="Wallet">👛 Wallet</option>
+                        <option value="Documents">📄 Documents</option>
+                        <option value="ID Card">🪪 ID Card</option>
+                        <option value="Others">📦 Others</option>
                     </Form.Select>
                 </Col>
             </Row>
 
-            {loading ? <p>Loading...</p> : (
-                <Row xs={1} md={3} className="g-4">
-                    {items.map(item => (
-                        <Col key={item._id}>
+            {/* Items Grid */}
+            {loading ? (
+                <div className="text-center py-5">
+                    <div className="spinner-border text-primary" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                    <p className="text-muted mt-3">Loading items...</p>
+                </div>
+            ) : items.length > 0 ? (
+                <Row xs={1} md={2} lg={3} className="g-4">
+                    {items.map((item, index) => (
+                        <Col key={item._id} className={`fade-in-up delay-${(index % 3) + 1}`}>
                             <ItemCard item={item} />
                         </Col>
                     ))}
-                    {items.length === 0 && <p className="text-center text-muted">No items found.</p>}
                 </Row>
+            ) : (
+                <div className="empty-state">
+                    <div className="empty-state-icon">
+                        {type === 'lost' ? '😢' : '🎉'}
+                    </div>
+                    <h3 className="empty-state-title">No items found</h3>
+                    <p className="empty-state-text">Try adjusting your search or filters</p>
+                </div>
             )}
         </Container>
     );

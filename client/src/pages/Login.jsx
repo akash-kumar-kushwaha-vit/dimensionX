@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { Container, Card, Alert } from 'react-bootstrap';
+import { Alert } from 'react-bootstrap';
 
 const Login = () => {
     const { login } = useContext(AuthContext);
@@ -19,26 +19,35 @@ const Login = () => {
     };
 
     const handleError = () => {
-        setError('Google Login Failed');
+        setError('Google Login Failed. Please try again.');
     };
 
     return (
-        <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '60vh' }}>
-            <Card className="p-4 shadow text-center" style={{ width: '400px' }}>
-                <h2 className="mb-4">Welcome Back</h2>
-                <p className="text-muted mb-4">Please sign in with your college email.</p>
+        <div className="login-wrapper">
+            <div className="login-card fade-in-up">
+                <div className="login-icon">🔐</div>
+                <h2 className="login-title">Welcome Back!</h2>
+                <p className="login-subtitle">Sign in with your college email to continue</p>
 
-                {error && <Alert variant="danger">{error}</Alert>}
+                {error && <Alert variant="danger" className="mb-4">{error}</Alert>}
 
-                <div className="d-flex justify-content-center">
+                <div className="d-flex justify-content-center mb-4">
                     <GoogleLogin
                         onSuccess={handleSuccess}
                         onError={handleError}
                         useOneTap
+                        size="large"
+                        theme="filled_blue"
+                        text="signin_with"
+                        shape="pill"
                     />
                 </div>
-            </Card>
-        </Container>
+
+                <div className="text-center pt-3 border-top">
+                    <small className="text-muted">🔒 Secured with Google OAuth 2.0</small>
+                </div>
+            </div>
+        </div>
     );
 };
 

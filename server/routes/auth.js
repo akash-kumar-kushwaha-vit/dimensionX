@@ -66,4 +66,38 @@ router.post('/google', async (req, res) => {
     }
 });
 
+// @route   PUT /api/auth/profile
+// @desc    Update user profile picture
+// @access  Private
+const authMiddleware = require('../middleware/authMiddleware');
+const upload = require('../middleware/uploadMiddleware');
+
+router.put('/profile', authMiddleware, upload.single('picture'), async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        if (req.file) {
+            user.picture = req.file.path.replace('\\', '/');
+        }
+
+        await user.save();
+
+        res.json({
+            message: 'Profile updated successfully',
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                picture: user.picture
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error updating profile' });
+    }
+});
+
 module.exports = router;
