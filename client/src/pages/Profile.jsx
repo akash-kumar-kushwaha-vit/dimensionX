@@ -25,6 +25,7 @@ import {
     Grid,
     Filter
 } from 'lucide-react';
+import { API_BASE_URL } from '../config';
 
 const Profile = () => {
     const { user, setUser } = useContext(AuthContext);
@@ -114,7 +115,7 @@ const Profile = () => {
     }, []);
 
     const pictureUrl = user?.picture?.startsWith('uploads/')
-        ? `http://localhost:5000/${user.picture}?t=${Date.now()}`
+        ? `${API_BASE_URL}/${user.picture}?t=${Date.now()}`
         : user?.picture;
 
     const filteredItems = myItems.filter(item => {

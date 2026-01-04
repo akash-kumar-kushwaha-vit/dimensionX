@@ -4,6 +4,7 @@ import { Container, Row, Col, Form, Button, ListGroup, Card } from 'react-bootst
 import { AuthContext } from '../context/AuthContext';
 import { useLocation } from 'react-router-dom';
 import { Send, User } from 'lucide-react';
+import { API_BASE_URL } from '../config';
 
 const Chat = () => {
     const { user } = useContext(AuthContext);

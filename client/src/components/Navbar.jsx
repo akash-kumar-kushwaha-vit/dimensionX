@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { Navbar as BsNavbar, Nav, Container, Button, Dropdown } from 'react-bootstrap';
+import { API_BASE_URL } from '../config';
 
 const Navbar = () => {
     const { user, logout } = useContext(AuthContext);
@@ -46,7 +47,7 @@ const Navbar = () => {
                                 <Dropdown.Toggle variant="transparent" className="p-0 border-0 after-none d-flex align-items-center gap-2">
                                     <span className="text-dark fw-bold d-none d-lg-block">{user.name.split(' ')[0]}</span>
                                     {user.picture ? (
-                                        <img src={user.picture.startsWith('uploads/') ? `http://localhost:5000/${user.picture}` : user.picture}
+                                        <img src={user.picture.startsWith('uploads/') ? `${API_BASE_URL}/${user.picture}` : user.picture}
                                             alt="Profile"
                                             className="rounded-circle border border-2 border-white shadow-sm"
                                             width="40" height="40" style={{ objectFit: 'cover' }}

@@ -3,6 +3,7 @@ import { Card, Button } from 'react-bootstrap';
 import { Calendar, MapPin, Phone, Trash2, MessageCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import { API_BASE_URL } from '../config';
 
 const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -29,7 +30,7 @@ const ItemCard = ({ item, onDelete, isOwnPost }) => {
                 {item.image ? (
                     <Card.Img
                         variant="top"
-                        src={`http://localhost:5000/${item.image}`}
+                        src={`${API_BASE_URL}/${item.image}`}
                         className="card-img-content"
                     />
                 ) : (
