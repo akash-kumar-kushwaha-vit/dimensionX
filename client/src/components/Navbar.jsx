@@ -47,7 +47,7 @@ const Navbar = () => {
                                 <Dropdown.Toggle variant="transparent" className="p-0 border-0 after-none d-flex align-items-center gap-2">
                                     <span className="text-dark fw-bold d-none d-lg-block">{user.name.split(' ')[0]}</span>
                                     {user.picture ? (
-                                        <img src={user.picture.startsWith('uploads/') ? `${API_BASE_URL}/${user.picture}` : user.picture}
+                                        <img src={user.picture.startsWith('http') || user.picture.startsWith('data:') ? user.picture : `${API_BASE_URL}/${user.picture}`}
                                             alt="Profile"
                                             className="rounded-circle border border-2 border-white shadow-sm"
                                             width="40" height="40" style={{ objectFit: 'cover' }}

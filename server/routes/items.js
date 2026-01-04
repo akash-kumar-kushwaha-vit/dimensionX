@@ -19,7 +19,7 @@ router.post('/', authMiddleware, upload.single('image'), async (req, res) => {
             date,
             place,
             contact,
-            image: req.file ? req.file.path.replace('\\', '/') : null, // Store relative path
+            image: req.file ? `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}` : null,
             postedBy: req.user.id
         });
 

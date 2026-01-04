@@ -30,7 +30,7 @@ const ItemCard = ({ item, onDelete, isOwnPost }) => {
                 {item.image ? (
                     <Card.Img
                         variant="top"
-                        src={`${API_BASE_URL}/${item.image}`}
+                        src={item.image.startsWith('http') || item.image.startsWith('data:') ? item.image : `${API_BASE_URL}/${item.image}`}
                         className="card-img-content"
                     />
                 ) : (

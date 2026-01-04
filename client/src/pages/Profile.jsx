@@ -114,9 +114,9 @@ const Profile = () => {
         fetchMyItems();
     }, []);
 
-    const pictureUrl = user?.picture?.startsWith('uploads/')
-        ? `${API_BASE_URL}/${user.picture}?t=${Date.now()}`
-        : user?.picture;
+    const pictureUrl = user?.picture?.startsWith('http') || user?.picture?.startsWith('data:')
+        ? user?.picture
+        : `${API_BASE_URL}/${user?.picture}?t=${Date.now()}`;
 
     const filteredItems = myItems.filter(item => {
         if (activeFilter === 'all') return true;

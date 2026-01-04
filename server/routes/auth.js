@@ -80,7 +80,7 @@ router.put('/profile', authMiddleware, upload.single('picture'), async (req, res
         }
 
         if (req.file) {
-            user.picture = req.file.path.replace('\\', '/');
+            user.picture = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
         }
 
         await user.save();
